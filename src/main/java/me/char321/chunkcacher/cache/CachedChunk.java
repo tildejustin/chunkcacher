@@ -7,40 +7,40 @@ import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.util.collection.PackedIntegerArray;
+import net.minecraft.util.collection.PaletteStorage;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.ChunkTickScheduler;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.biome.source.BiomeArray;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.UpgradeData;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.carver.CarvingMask;
 import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.tick.SimpleTickScheduler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.BitSet;
 import java.util.List;
 import java.util.Map;
 
 public class CachedChunk {
     public ChunkPos pos;
     @Nullable
-    public BiomeArray biomes;
-    public Map<Heightmap.Type, PackedIntegerArray> heightmaps;
+    public Biome biome;
+    public Map<Heightmap.Type, PaletteStorage> heightmaps;
     public ChunkStatus status;
     public NbtList blockEntities;
     public CachedChunkSection[] sections;
     public List<NbtCompound> entities;
     public List<BlockPos> lightSources;
-    public ShortList[] postProcessingLists = new ShortList[16];
+    public ShortList[] postProcessingLists;
     public Map<StructureFeature<?>, NbtCompound> structureStarts;
     public Map<StructureFeature<?>, LongSet> structureReferences;
     public UpgradeData upgradeData;
-    public ChunkTickScheduler<Block> blockTickScheduler;
-    public ChunkTickScheduler<Fluid> fluidTickScheduler;
+    public SimpleTickScheduler<Block> blockTickScheduler;
+    public SimpleTickScheduler<Fluid> fluidTickScheduler;
     public long inhabitedTime;
-    public Map<GenerationStep.Carver, BitSet> carvingMasks = new Object2ObjectArrayMap<>();
+    public Map<GenerationStep.Carver, CarvingMask> carvingMasks = new Object2ObjectArrayMap<>();
     public boolean lightOn;
 
 }

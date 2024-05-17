@@ -7,6 +7,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ChunkSection.class)
 public interface ChunkSectionAccessor {
     @Accessor short getNonEmptyBlockCount();
+    @Accessor void setNonEmptyBlockCount(short nonEmptyBlockCount);
     @Accessor short getRandomTickableBlockCount();
+    @Accessor void setRandomTickableBlockCount(short randomTickableBlockCount);
     @Accessor short getNonEmptyFluidCount();
+    @Accessor void setNonEmptyFluidCount(short nonEmptyFluidCount);
 }

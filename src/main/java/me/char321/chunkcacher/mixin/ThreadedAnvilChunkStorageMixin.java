@@ -34,16 +34,19 @@ public class ThreadedAnvilChunkStorageMixin {
 
     @Inject(method = "method_17225", at = @At("RETURN"), remap = false)
     private void addToCache(CallbackInfoReturnable<CompletableFuture<Either<Chunk, ChunkHolder.Unloaded>>> cir) {
-        if (WorldCache.shouldCache() && cir.getReturnValue().isDone()) {
-            cir.getReturnValue().getNow(null).ifLeft((chunk) -> {
-                if (!chunk.getStatus().isAtLeast(ChunkStatus.FEATURES)) {
-                    WorldCache.addChunk(chunk.getPos(), chunk.getStatus(), chunk, world);
-                }
+        if (WorldCache.shouldCache()) {
+            cir.getReturnValue().thenApply(res -> {
+                res.ifLeft((chunk) -> {
+                    if (!chunk.getStatus().isAtLeast(ChunkStatus.FEATURES)) {
+                        WorldCache.addChunk(chunk.getPos(), chunk.getStatus(), chunk, world);
+                    }
+                });
+                return res;
             });
         }
     }
 
-    @Redirect(method = "method_17225", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/ChunkStatus;runGenerationTask(Ljava/util/concurrent/Executor;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/structure/StructureManager;Lnet/minecraft/server/world/ServerLightingProvider;Ljava/util/function/Function;Ljava/util/List;)Ljava/util/concurrent/CompletableFuture;"))
+    @Redirect(method = "method_17225", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/ChunkStatus;runGenerationTask(Ljava/util/concurrent/Executor;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/world/gen/chunk/ChunkGenerator;Lnet/minecraft/structure/StructureManager;Lnet/minecraft/server/world/ServerLightingProvider;Ljava/util/function/Function;Ljava/util/List;Z)Ljava/util/concurrent/CompletableFuture;"))
     private CompletableFuture<Either<Chunk, ChunkHolder.Unloaded>> loadFromCache(
             ChunkStatus instance,
             Executor executor,
@@ -52,7 +55,8 @@ public class ThreadedAnvilChunkStorageMixin {
             StructureManager structureManager,
             ServerLightingProvider lightingProvider,
             Function<Chunk, CompletableFuture<Either<Chunk, ChunkHolder.Unloaded>>> function,
-            List<Chunk> surroundingChunks
+            List<Chunk> surroundingChunks,
+            boolean bl
     ) {
         if (WorldCache.shouldCache() && !instance.isAtLeast(ChunkStatus.FEATURES)) {
             Chunk chunk = surroundingChunks.get(surroundingChunks.size() / 2);
@@ -61,6 +65,6 @@ public class ThreadedAnvilChunkStorageMixin {
                 return CompletableFuture.completedFuture(Either.left(cachedChunk));
             }
         }
-        return instance.runGenerationTask(executor, world, chunkGenerator, structureManager, lightingProvider, function, surroundingChunks);
+        return instance.runGenerationTask(executor, world, chunkGenerator, structureManager, lightingProvider, function, surroundingChunks, bl);
     }
 }

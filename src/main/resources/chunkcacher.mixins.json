@@ -7,11 +7,13 @@
     "ChunkGeneratorMixin",
     "MinecraftServerMixin",
     "ThreadedAnvilChunkStorageMixin",
+    "access.CarvingMaskAccessor",
+    "access.ChunkAccessor",
     "access.ChunkSectionAccessor",
-    "access.ChunkTickSchedulerAccessor",
     "access.HeightmapAccessor",
     "access.PackedIntegerArrayAccessor",
-    "access.ProtoChunkAccessor"
+    "access.ProtoChunkAccessor",
+    "access.SimpleTickSchedulerAccessor"
   ],
   "client": [
     "TitleScreenMixin"

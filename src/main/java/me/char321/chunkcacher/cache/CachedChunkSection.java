@@ -7,5 +7,6 @@ public class CachedChunkSection {
     public short nonEmptyBlockCount;
     public short randomTickableBlockCount;
     public short nonEmptyFluidCount;
-    public PacketByteBuf container;
+    public PacketByteBuf blockStateContainer;
+    public PacketByteBuf biomeContainer;
 }

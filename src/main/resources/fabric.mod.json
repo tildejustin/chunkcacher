@@ -13,11 +13,12 @@
   ],
   "depends": {
     "fabricloader": ">=0.12.2",
-    "minecraft": ">=1.16.5 <1.18",
+    "minecraft": ">=1.17.1 <1.18.2",
     "atum": "*"
   },
   "breaks": {
     "lazystronghold": "*",
     "worldpreview": "*"
-  }
+  },
+  "accessWidener": "chunkcacher.accesswidener"
 }

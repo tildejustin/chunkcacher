@@ -10,6 +10,10 @@ base {
     archivesName = project.mod_id
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/chunkcacher.accesswidener")
+}
+
 repositories {
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
@@ -24,7 +28,7 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation files('lib/atum-1.1.3+1.16.5.jar')
+    modImplementation files('lib/atum-1.2.2+1.18.1.jar')
 }
 
 processResources {
