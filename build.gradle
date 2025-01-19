@@ -32,13 +32,13 @@ dependencies {
     vineflowerDecompilerClasspath libs.vineflower
 
     // check for the latest versions at https://jitpack.io/#kingcontaria/atum-rewrite
-    modImplementation ("com.github.KingContaria:atum-rewrite:c6eb3d183b") {
+    modImplementation (libs.atum) {
         transitive = false
     }
 
     // we need this for Atum
     // check for the latest versions at https://jitpack.io/#kingcontaria/speedrunapi
-    modImplementation "com.github.KingContaria:SpeedrunAPI:3d7827a9c1"
+    modImplementation "dev.tildejustin:speedrunapi:3a0e6319"
 }
 
 processResources {
